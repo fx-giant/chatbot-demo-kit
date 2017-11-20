@@ -6,7 +6,7 @@ A simple chat bot system that show case basic interaction flow with dialogflow.
 These instructions will assist you on getting a chat bot system demo kit up and running.
 Its mean for using inconjunction with Giant and dialog flow.
 
-This guide will not cover atremdes user interface and services, nor cover the basic of 
+This guide will not cover atramedes user interface and services, nor cover the basic of 
 dialog. Please refer to their respective guides on it.
 
 
