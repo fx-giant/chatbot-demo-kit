@@ -39,7 +39,7 @@ docker pull gcr.io/fx-chatbot-170907/telco-check-date-func:latest
 ```bash
 docker run -d -p 8800:15417 gcr.io/fx-chatbot-170907/fx-atramedes:1.0.0 --name atramedes \
         -e PORT=15417 \
-        -e MONGO_HOST=35.185.188.120 \
+        -e MONGO_HOST=localhost \
         -e MONGO_DATABASE=Chat \
         -e MONGO_USERNAME=chat-root \
         -e MONGO_PASSWORD=chat-123-root-123 \
@@ -48,15 +48,7 @@ docker run -d -p 8800:15417 gcr.io/fx-chatbot-170907/fx-atramedes:1.0.0 --name a
 3. **Run Logging**
 ```bash
 docker run gcr.io/fx-chatbot-170907/ava-logger-node:1.0 \
-    -d -p 8801:80  --name ava-core  \
-    -e AtramedesUrl=localhost:8800  \
-    -e LoggingUrl=localhost:8801
-```
-
-4. **Run Ava Core**
-```bash
-docker run gcr.io/fx-chatbot-170907/ava-core:1.0 \
-    -d -p 8800:80  --name ava-core  \    
+    -d -p 8801:80  --name ava-logger-node:1.0  \		
     -e LOGGER_POSTGRES_HOST=localhost \
     -e LOGGER_POSTGRES_DB=chatbot \
     -e LOGGER_POSTGRES_USER=postgres \
@@ -64,15 +56,27 @@ docker run gcr.io/fx-chatbot-170907/ava-core:1.0 \
     -e LOGGER_POSTGRES_PORT=5432 
 ```
 
+4. **Run Ava Core**
+```bash
+docker run gcr.io/fx-chatbot-170907/ava-core:1.0 \
+    -d -p 8800:80  --name ava-core  \  
+    -e AtramedesUrl=localhost:8800  \
+    -e LoggingUrl=localhost:8801
+```
+
 
 
 ### Installation (Docker compose)
-1. git pull the docker docker
+1. git pull the docker compose
 ```bash
-//git pull command
+# Docker compose [DO NOT USE APT-GET]
+curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+
+# change Permission 
+chmod +x /usr/local/bin/docker-compose
 ```
 
 2. docker up
 ```bash
-//git pull command
+docker-compose -f chatbot-demo-kit.yml up -d
 ```

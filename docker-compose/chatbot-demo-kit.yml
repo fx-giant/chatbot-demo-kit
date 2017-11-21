@@ -1,0 +1,46 @@
+version: '2'
+
+services:
+  mongo:
+    image: tutum/mongodb
+    environment:
+      MONGODB_DATABASE: admin
+      MONGODB_USER: chat-root
+      MONGODB_PASS: chat-123-root-123
+  postgre:
+    image: postgres:9.5
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres 
+      POSTGRES_PASSWORD: Password!@#
+      PGDATA: chatbot 
+  artamedes:
+    image: gcr.io/fx-chatbot-170907/fx-atramedes:1.0.0
+    ports: ["8800:15417"]
+    restart: unless-stopped # required so that it retries until conocurse-db comes up
+    environment:
+      MONGO_HOST: localhost
+      PORT: 15417
+      MONGO_DATABASE: Chat
+      MONGO_USERNAME: chat-root
+      MONGO_PASSWORD: chat-123-root-123
+      BEAUTIFY_RESPONSE: "false"
+  ava-logger-node:
+    image: gcr.io/fx-chatbot-170907/ava-logger-node:1.0
+    ports: ["8801:80"]
+    restart: unless-stopped # required so that it retries until conocurse-db comes up
+    environment:
+      LOGGER_POSTGRES_HOST: localhost
+      LOGGER_POSTGRES_DB: chatbot
+      LOGGER_POSTGRES_USER: postgres
+      LOGGER_POSTGRES_PASSWORD: Password!@#
+      LOGGER_POSTGRES_PORT: 5432
+  ava-core:
+    image:  gcr.io/fx-chatbot-170907/ava-core:1.0
+    ports: ["8802:80"]
+    environment:        
+      AtramedesUrl: localhost:8800
+      LoggingUrl: localhost:8801
+  telco-check-date-func:
+    image:  gcr.io/fx-chatbot-170907/telco-check-date-func:latest
+    ports: ["8803:3000"]
