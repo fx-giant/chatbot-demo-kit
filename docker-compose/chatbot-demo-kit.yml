@@ -15,7 +15,7 @@ services:
       POSTGRES_PASSWORD: Password!@#
       PGDATA: chatbot 
   artamedes:
-    image: gcr.io/fx-chatbot-170907/fx-atramedes:1.0.0
+    image: asia.gcr.io/fx-giant-container/fx-atramedes:1.0.0
     ports: ["8800:15417"]
     restart: unless-stopped # required so that it retries until conocurse-db comes up
     environment:
@@ -26,7 +26,7 @@ services:
       MONGO_PASSWORD: chat-123-root-123
       BEAUTIFY_RESPONSE: "false"
   ava-logger-node:
-    image: gcr.io/fx-chatbot-170907/ava-logger-node:1.0
+    image: asia.gcr.io/fx-giant-container/ava-logger-node:1.0
     ports: ["8801:80"]
     restart: unless-stopped # required so that it retries until conocurse-db comes up
     environment:
@@ -36,11 +36,11 @@ services:
       LOGGER_POSTGRES_PASSWORD: Password!@#
       LOGGER_POSTGRES_PORT: 5432
   ava-core:
-    image:  gcr.io/fx-chatbot-170907/ava-core:1.0
+    image:  asia.gcr.io/fx-giant-container/ava-core:1.0
     ports: ["8802:80"]
     environment:        
       AtramedesUrl: localhost:8800
       LoggingUrl: localhost:8801
   telco-check-date-func:
-    image:  gcr.io/fx-chatbot-170907/telco-check-date-func:latest
+    image:  asia.gcr.io/fx-giant-container/telco-check-date-func:latest
     ports: ["8803:3000"]
