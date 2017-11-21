@@ -67,16 +67,32 @@ docker run gcr.io/fx-chatbot-170907/ava-core:1.0 \
 
 
 ### Installation (Docker compose)
-1. git pull the docker compose
+1. **Pull Docker Compose from github**
 ```bash
 # Docker compose [DO NOT USE APT-GET]
 curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 
-# change Permission 
+# Change Permission 
 chmod +x /usr/local/bin/docker-compose
 ```
 
-2. docker up
+2. **Clone Docker Compose file from github and got the docker compose file folder**
+```bash
+ # Run this Command  to get docker compose file 
+git clone https://github.com/fx-giant/chatbot-demo-kit.git
+
+#Run this Command to direct to the docekr compose file folder
+cd chatbot-demo-kit/docker-compose/
+```
+
+3. **Login gcr Docker Registry**
+```bash
+# Before begin next step you need to get the json key from GIANT private google docker registry admin, so that you can login and pull docker images.
+JSON_KEY=$(cat yourkeyfile.json | tr '\n' ' ')
+docker login -e <any.email@willbe.ignored> -u _json_key -p "$JSON_KEY" https://asia.gcr.io
+```
+
+4. **Run docker compose up command**
 ```bash
 docker-compose -f chatbot-demo-kit.yml up -d
 ```
