@@ -63,6 +63,8 @@ docker run -d \
 
 
 ## Suggested Domain mapping
-1. **ava core** https://pizzabot-demo.fusionexgiant.com
-2. **simple store** https://pizzaservice-demo.fusionexgiant.com
-3. **ava logger**  https://pizzalog-demo.fusionexgiant.com/
+| Service | Url |
+|---|---|
+|**ava core** | https://pizzabot-demo.fusionexgiant.com |
+|**simple store** | https://pizzaservice-demo.fusionexgiant.com |
+|**ava logger** | https://pizzalog-demo.fusionexgiant.com/ |
