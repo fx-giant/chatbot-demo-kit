@@ -60,3 +60,9 @@ docker run -d \
 > Within the intent all service mapping currently is being mapped to https://pizzaservice-demo.fusionexgiant.com/
 > 
 > If the given service deployment uses a different dns, alter the patch script locally and execute it.
+
+
+## Suggested Domain mapping
+1. **ava core** https://pizzabot-demo.fusionexgiant.com
+2. **simple store** https://pizzaservice-demo.fusionexgiant.com
+3. **ava logger**  https://pizzalog-demo.fusionexgiant.com/
