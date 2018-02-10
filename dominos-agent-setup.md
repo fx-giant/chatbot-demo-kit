@@ -52,6 +52,8 @@ docker run -d \
 > PRESTASHOP_MYSQL_URL represents the storage of given prestashop url
 > 
 > STORE_TYPE hard code to prestashop for this demo instance
+>
+> Execute store-location.js for the provided db to allow store location to be functional
 
 
 ## Configure Agent
