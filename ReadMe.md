@@ -6,95 +6,92 @@ A simple chat bot system that show case basic interaction flow with dialogflow.
 These instructions will assist you on getting a chat bot system demo kit up and running.
 Its mean for using inconjunction with Giant and dialog flow.
 
-This guide will not cover atramedes user interface and services, nor cover the basic of 
+This guide will not cover atremdes user interface and services, nor cover the basic of 
 dialog. Please refer to their respective guides on it.
 
 
-
-### Prerequisite:
+## Prerequisite:
 - Has access to chatbot container registry
 - Has access to a version of giant with atremedes forms install
 - Has a working knowledge of dialog flow
 
 
-### Service Explanation
-Here are the brief explanation of each docker file configuration and usages.
+## Service Explanation
+Refer to Ai Components visio for each component relationship
+1. **Ava** Main logical processing handling all user chats, and webhook fufillment
+2. **Ulthane** Main storage storing all agents, intent and actions configurations
+3. **Logging** Logs, need i explain more
+4. **Genesys Proxy** *optional* Used for ferring comunication within chat interface and genesys services. Background task and message pooling are some of its role. Thus its important to scale this as genesys user scale as well.
+5. **Facebook Session** *optional* Used to keep track of a given fresh new facebook conversation
 
-1. **Ava.core** contains application engine and demo user interface that is accessible via ~/Chat rout
-2. **Ava.Logger** simple logging application that would lost all conversation onto a given postgre
-3. **Atramedes** chatbot engine follow up action configuration. Provide ava core with a list of actions to invoke 
-base on current agent, intent and/or event. Expose basic interface for CRUD operation.
-4. **Atramedes Audit** basic CRUD for auditing user interaction with the bot. 
-5. **telco-check-date-func** demo telco check date function. 
 
-### Installation (Self Docker)
+## Installation (Form)
+1. **Pull down the relevant web forms**
+2. **Upload to giant**
+> The given forms deployment only provide sample configuration. do the necessary changes onto the configuration
+> If a given enviroment is on premis, it is suggested to download the scripts and repackage instead. (Changes on your part is required) 
+
+### Form Program Configuration
+1. **Ulthane**
+- requiredAuth *default: false* always. since it uses giant as authentication
+- applicationTitle *default Conversation flow 2.0
+- baseUrl ulthane service url. 
+> If form uses giant proxy mode, this can be disregarded
+- chatWebUrl a *SELF HOSTED* ava web
+- chatUrl ava url mainly used for display purpose (on agent detail page). NOT FOR INVOCATION
+
+2. **Ava**
+- isDebug *default: true* toggle to false if all error wanted to be suppress
+- avaUrl 
+> Protip: *If its in self hosted mode, consider proxying ava web to reduce cluter of cors between web and services*
+
+---
+
+## Installation (Self Docker)
 1. **Pull down the required docker images**
-```bash
-docker pull gcr.io/fx-chatbot-170907/ava-core:1.0
-docker pull gcr.io/fx-chatbot-170907/ava-logger-node:1.0
-docker pull gcr.io/fx-chatbot-170907/fx-atramedes:1.0.0
-docker pull gcr.io/fx-chatbot-170907/telco-check-date-func:latest
-```
-
-2. **Run Atramedes**
-```bash
-docker run -d -p 8800:15417 
-        -e PORT=15417 \
-        -e MONGO_HOST=localhost \
-        -e MONGO_DATABASE=Chat \
-        -e MONGO_USERNAME=chat-username \
-        -e MONGO_PASSWORD=chat-password \
-        -e BEAUTIFY_RESPONSE=false \
-        gcr.io/fx-chatbot-170907/fx-atramedes:1.0.0 --name atramedes
-```
-
-3. **Run Atramedes Audit**
-```bash
-docker run -d \
-    -p 15720:15720 \
-    -e PORT=15720 \
-    -e MONGO_AUDIT_HOST=localhost \
-    -e MONGO_AUDIT_DATABASE=Chat-audit \
-    -e MONGO_AUDIT_USERNAME=chat-username \
-    -e MONGO_AUDIT_PASSWORD=chat-password \
-    -e MONGO_AUDIT_AUTH_SOURCE=admin \
-    -e MONGO_AUDIT_COLLECTION=audit \
-    -e BEAUTIFY_RESPONSE=false \
-    gcr.io/fx-chatbot-170907/fx-atramedes-audit:latest --name atramedes-audit
-```
-
-3. **Run Logging**
-```bash
-docker run gcr.io/fx-chatbot-170907/ava-logger-node:1.0 \
-    -d -p 8801:80  --name ava-logger-node:1.0  \		
-    -e LOGGER_POSTGRES_HOST=localhost \
-    -e LOGGER_POSTGRES_DB=chatbot \
-    -e LOGGER_POSTGRES_USER=postgres \
-    -e LOGGER_POSTGRES_PASSWORD=Password!@#$ \
-    -e LOGGER_POSTGRES_PORT=5432 
-```
-
-4. **Run Ava Core**
-```bash
-docker run gcr.io/fx-chatbot-170907/ava-core:1.0 \
-    -d -p 8800:80  --name ava-core  \  
-    -e AtramedesUrl=localhost:8800  \
-    -e LoggingUrl=localhost:8801
-```
+2. **Run the required docuker images**
 
 
+### Docker Configurations
+1. **Ava** *.net core*
+- Docker image service port: 80
+- UlthaneUrl
+- FacebookUserSessionServiceUrl
+- EventBus* 
+- EventBusQueuename *default: AvaApi*, ensure that changes to this queue is applied to all ava container for consistency 
+> *Protip*: curl to ~/api/Configuration to view the current instances configurations. Works for all services developed by aeym.
 
-### Installation (Docker compose)
-1. git pull the docker compose
-```bash
-# Docker compose [DO NOT USE APT-GET]
-curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+2. **Ulthane** *nodejs*
+- PORT *default: 1337*
+- MONGODB_URL *any valid mongodb will be accepted*
+- DATABASE *given databas within mongo*
 
-# change Permission 
-chmod +x /usr/local/bin/docker-compose
-```
+3. **Logging** *.net core*
+- Docker image service port: 80
+- ConnectionString *any valid connection string base on the configured source provider type**
+- SourceProviderType *default: Postgre* support for other sql source is COMMING SOON.
+- EventBus* 
+- EventBusQueuename *default: Logging*, ensure that changes to this queue is 
 
-2. docker up
-```bash
-docker-compose -f chatbot-demo-kit.yml up -d
-```
+4. **Genesys Proxy** *.net core*
+- ConnectionString redis url [see more on security for redis](https://redis.io/topics/security)
+- EventBus* 
+- EventBusQueuename *default: Logging*, ensure that changes to this queue is 
+
+
+5. **Facebook Session** *.net core*
+- UlthaneUrl
+- FacebookApiUrl *default: https://graph.facebook.com/v2.6/me/*
+- ConnectionString redis url [see more on security for redis](https://redis.io/topics/security)
+- EventBus* 
+- EventBusQueuename *default: Logging*, ensure that changes to this queue is 
+
+### MISC Configuration Properties
+1. EventBus*: RabbitMQ configuration
+- HostName
+- Port
+- Username
+- Passowrd
+- RetryCount
+> *Protip*: for nested .net core docker enviroment pass through use {P}:{C} format [See more...](https://www.scottbrady91.com/Docker/ASPNET-Core-and-Docker-Environment-Variables)
+
