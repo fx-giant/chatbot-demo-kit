@@ -1,4 +1,4 @@
-# Chatbot demo kit
+<!-- # Chatbot demo kit -->
 A simple chat bot system that show case basic interaction flow with dialogflow.
 
 
@@ -65,6 +65,14 @@ Refer to Ai Components visio for each component relationship
 - PORT *default: 1337*
 - MONGODB_URL *any valid mongodb will be accepted*
 - DATABASE *given databas within mongo*
+- CHAT_LOGS_SOURCE_PROVIDER_TYPE *a valid connection sourc below, currently only supported postgres*
+- CHAT_LOGS_CONNECTION_STRING *a valid connection source RELATIVE to logging service below*
+
+>Protip: nodejs connection string are different to .net core. 
+for more details on [postgre](https://node-postgres.com/features/connecting#connection-uri), [mongoDb](https://mongodb.github.io/node-mongodb-native/api-generated/mongoclient.html)
+
+>Protip: for high performance during production, ulthane can be connected to a read only replica of postgre for loggin. while having logging to log to a high read store, having a batch to update back to postgre sql.
+
 
 3. **Logging** *.net core*
 - Docker image service port: 80
@@ -72,6 +80,7 @@ Refer to Ai Components visio for each component relationship
 - SourceProviderType *default: Postgre* support for other sql source is COMMING SOON.
 - EventBus* 
 - EventBusQueuename *default: Logging*, ensure that changes to this queue is 
+
 
 4. **Genesys Proxy** *.net core*
 - ConnectionString redis url [see more on security for redis](https://redis.io/topics/security)
