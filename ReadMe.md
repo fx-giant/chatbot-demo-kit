@@ -89,7 +89,6 @@ for more details on [postgre](https://node-postgres.com/features/connecting#conn
 
 
 5. **Facebook Session** *.net core*
-- UlthaneUrl
 - FacebookApiUrl *default: https://graph.facebook.com/v2.6/me/*
 - ConnectionString redis url [see more on security for redis](https://redis.io/topics/security)
 - EventBus* 
