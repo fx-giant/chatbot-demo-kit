@@ -55,6 +55,7 @@ Refer to Ai Components visio for each component relationship
 - EventBus* 
 - EventBusQueuename *default: AvaApi*, ensure that changes to this queue is applied to all ava container for consistency 
 > *Protip*: curl to ~/api/Configuration to view the current instances configurations. Works for all services developed by aeym.
+ 
 
 2. **Ulthane** *nodejs*
 - PORT *default: 1337*
@@ -67,6 +68,8 @@ Refer to Ai Components visio for each component relationship
 for more details on [postgre](https://node-postgres.com/features/connecting#connection-uri), [mongoDb](https://mongodb.github.io/node-mongodb-native/api-generated/mongoclient.html)
 
 >Protip: for high performance during production, ulthane can be connected to a read only replica of postgre for loggin. while having logging to log to a high read store, having a batch to update back to postgre sql.
+
+> **Database preparation**: remember to execute /scripts/ava-mongo to initialize the mongo database structure
 
 3. **Logging** *.net core*
 - Docker image service port: 80
