@@ -1,0 +1,1 @@
+db.agents.createIndex( { "id": 1 }, { unique: true } )
