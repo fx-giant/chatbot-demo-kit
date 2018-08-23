@@ -61,7 +61,7 @@ Refer to Ai Components visio for each component relationship
 - PORT *default: 1337*
 - MONGODB_URL *any valid mongodb will be accepted*
 - DATABASE *given databas within mongo*
-- CHAT_LOGS_SOURCE_PROVIDER_TYPE *a valid connection sourc below, currently only supported postgres*
+- CHAT_LOGS_SOURCE_PROVIDER_TYPE *a valid connection sourc below, currently supported **Postgres** & MySql*
 - CHAT_LOGS_CONNECTION_STRING *a valid connection source RELATIVE to logging service below*
 
 >Protip: nodejs connection string are different to .net core. 
@@ -74,7 +74,7 @@ for more details on [postgre](https://node-postgres.com/features/connecting#conn
 3. **Logging** *.net core*
 - Docker image service port: 80
 - ConnectionString *any valid connection string base on the configured source provider type**
-- SourceProviderType *default: Postgre* support for other sql source is COMMING SOON.
+- SourceProviderType *default: Postgre* & MySql
 - EventBus* 
 - EventBusQueuename *default: Logging*, ensure that changes to this queue is 
 
