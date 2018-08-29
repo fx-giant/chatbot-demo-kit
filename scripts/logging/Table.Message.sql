@@ -27,7 +27,7 @@ create table messages
   output_context         json,
   exception              json,
   is_fallback            boolean,
-  session_id             char(32),
+  session_id             char(500),
   is_handover            boolean   not null,
   index                  bigserial not null
 );
