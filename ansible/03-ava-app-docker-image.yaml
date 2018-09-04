@@ -1,0 +1,40 @@
+ - hosts: app
+   tasks:   
+    - name: Pull ava-core image
+      become: yes
+      docker_image:
+        name: gcr.io/dialogflow-rnd/ava-core
+        tag: "{{ava_core_img_ver}}"    
+    - name: Pull ava-facebook-session image
+      become: yes
+      docker_image:
+        name: gcr.io/dialogflow-rnd/ava-facebook-session
+        tag: "{{ava_facebook_session_img_ver}}"    
+    - name: Pull ava-genesys-proxy image
+      become: yes
+      docker_image:
+        name: gcr.io/dialogflow-rnd/ava-genesys-proxy
+        tag: "{{ava_genesys_proxy_img_ver}}"    
+    - name: Pull ava-logging image
+      become: yes
+      docker_image:
+        name: gcr.io/dialogflow-rnd/ava-logging
+        tag: "{{ava_logging_img_ver}}"    
+    - name: Pull ava-web image
+      become: yes
+      docker_image:
+        name: gcr.io/dialogflow-rnd/ava-web
+        tag: "{{ava_web_img_ver}}"    
+    - name: Pull genesys-simulator-node image
+      become: yes
+      docker_image:
+        name: gcr.io/dialogflow-rnd/genesys-simulator-node
+        tag: "{{genesys_simulator_node_img_ver}}"    
+    - name: Pull ulthane-api-node image
+      become: yes
+      docker_image:
+        name: gcr.io/dialogflow-rnd/ulthane-api-node
+        tag: "{{ulthane_api_node_img_ver}}"    
+
+
+

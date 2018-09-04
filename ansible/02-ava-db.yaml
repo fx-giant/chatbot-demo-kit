@@ -1,0 +1,99 @@
+ - hosts: storage
+   tasks:   
+    # - name: Pull mysqlimage
+      # become: yes
+      # docker_image:
+        # name: mysql
+        # tag:  "{{mysql_img_ver}}"
+    - name: Pull mongo image
+      become: yes
+      docker_image:
+        name: mongo
+        tag:  "{{mongo_img_ver}}"    
+    - name: Pull redis image
+      become: yes
+      docker_image:
+        name: redis
+        tag:  "{{redis_img_ver}}"    
+    - name: Pull postgres image
+      become: yes
+      docker_image:
+        name: postgres
+        tag:  "{{postgres_img_ver}}"
+    - name: Pull rabbitmq image
+      become: yes
+      docker_image:
+        name: rabbitmq
+        tag:  "{{rabbitmq_img_ver}}"
+
+    - name: Create mongo volume
+      become: yes
+      docker_volume:
+        name: "ava-mongo"
+  
+    - name: Run mongo
+      #docker run -d --name my-mongo-2 -e MONGO_INITDB_ROOT_USERNAME=batman -e MONGO_INITDB_ROOT_PASSWORD=batman -p 27017:27017 mongo:4.1
+      become: yes
+      docker_container:
+        name: "ava-mongo"
+        restart: yes
+        image: "mongo:{{mongo_img_ver}}"                
+        ports:
+          - "{{mongo_port}}:27017"
+        volumes:
+          - "ava-mongo:/data/db"
+        command: --auth
+        env:
+          MONGO_INITDB_ROOT_USERNAME: "{{mongo_username}}"
+          MONGO_INITDB_ROOT_PASSWORD: "{{mongo_password}}"          
+
+    - name: Create redis volume
+      become: yes
+      docker_volume:
+        name: "ava-redis"
+  
+    - name: Run redis
+      become: yes
+      docker_container:
+        name: "ava-redis"
+        restart: yes
+        image: "redis:{{redis_img_ver}}"                
+        ports:
+          - "{{redis_port}}:6379"
+        volumes:
+          - "ava-redis:/data"
+        command: redis-server --appendonly yes --requirepass password        
+
+
+    - name: Run rabbitmq 
+      become: yes
+      docker_container:
+        name: "ava-rabbitmq"
+        restart: yes
+        image: "rabbitmq:{{rabbitmq_img_ver}}"                
+        hostname: "{{rabbitmq_hostname}}"
+        ports:
+          - "{{rabbitmq_port}}:5672"
+          - "{{rabbitmq_mgt_port}}:15672"
+        env:
+          RABBITMQ_DEFAULT_USER: "{{rabbitmq_username}}"
+          RABBITMQ_DEFAULT_PASS: "{{rabbitmq_password}}"
+
+
+    - name: Create postgre volume
+      become: yes
+      docker_volume:
+        name: "ava-postgres"
+
+    - name: Run postgres 
+      become: yes
+      docker_container:
+        name: "ava-postgres"
+        restart: yes
+        image: "postgres:{{postgres_img_ver}}"                        
+        ports:
+          - "{{postgre_port}}:5432"          
+        volumes:
+          - "ava-postgres:/var/lib/postgresql/dat"        
+        env:
+          POSTGRES_PASSWORD: "{{postgre_password}}"          

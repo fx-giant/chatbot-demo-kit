@@ -1,0 +1,140 @@
+ # a99ea24f5a12        gcr.io/fx-giant-container/nginx-proxy-ssl:2.0         "/app/docker-entrypo…"   5 months ago        Up 3 days           0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp   prod-nginx
+ # docker run -d -p 443:443 -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro --name my-proxy gcr.io/fx-giant-container/nginx-proxy-ssl:2.0  
+ - hosts: app
+   tasks:   
+    - name: Run ava-core
+      become: yes
+      docker_container:
+        name: "ava-core"
+        restart: yes
+        image: "gcr.io/dialogflow-rnd/ava-core:{{ava_core_img_ver}}"        
+        expose: 
+          - "{{ava_core_port}}"
+        ports:
+          - "{{ava_core_port}}:80"
+        env:          
+          VIRTUAL_HOST: "{{ava_core_api_url}}"
+          UlthaneUrl: "https://{{ulthane_api_node_api_url}}/api/"
+          "FacebookUserSessionServiceUrl": "https://{{ava_facebook_session_api_url}}/api/"
+          "EventBus:HostName": "{{event_bus_host_name}}"
+          "EventBus:Port": "{{event_bus_port}}"
+          "EventBus:Username": "{{event_bus_username}}"
+          "EventBus:Password": "{{event_bus_password}}"
+          "EventBus:RetryCount": "{{event_bus_retry_count}}"
+
+
+    - name: Run ava-facebook-session
+      become: yes
+      docker_container:
+        name: ava-facebook-session
+        restart: yes
+        image: gcr.io/dialogflow-rnd/ava-facebook-session:{{ava_facebook_session_img_ver}}
+        expose: 
+          - "{{ava_facebook_session_port}}"
+        ports:
+          - "{{ava_facebook_session_port}}:80"
+        env:
+          VIRTUAL_HOST: "{{ava_facebook_session_api_url}}"
+          "ConnectionString": "{{ava_facebook_connection_string}}"
+          "EventBus:HostName": "{{event_bus_host_name}}"
+          "EventBus:Port": "{{event_bus_port}}"
+          "EventBus:Username": "{{event_bus_username}}"
+          "EventBus:Password": "{{event_bus_password}}"
+          "EventBus:RetryCount": "{{event_bus_retry_count}}"
+
+
+    - name: Run ava-genesys-proxy
+      become: yes
+      docker_container:
+        name: ava-genesys-proxy
+        restart: yes
+        image: gcr.io/dialogflow-rnd/ava-genesys-proxy:{{ava_genesys_proxy_img_ver}}
+        expose: 
+          - "{{ava_genesys_proxy_port}}"
+        ports:
+          - "{{ava_genesys_proxy_port}}:80"
+        env:
+          VIRTUAL_HOST: "{{ava_genesys_proxy_api_url}}"
+          "ConnectionString": "{{ava_genesys_proxy_connection_string}}"
+          "NumberOfThreads": "{{ava_genesys_proxy_number_of_threads}}"
+          "EventBus:HostName": "{{event_bus_host_name}}"
+          "EventBus:Port": "{{event_bus_port}}"
+          "EventBus:Username": "{{event_bus_username}}"
+          "EventBus:Password": "{{event_bus_password}}"
+          "EventBus:RetryCount": "{{event_bus_retry_count}}"
+
+
+    - name: Run ava-logging
+      become: yes
+      docker_container:
+        name: ava-logging
+        restart: yes
+        image: gcr.io/dialogflow-rnd/ava-logging:{{ava_logging_img_ver}}
+        expose: 
+          - "{{ava_logging_port}}"
+        ports:
+          - "{{ava_logging_port}}:80"
+        env:
+          VIRTUAL_HOST: "{{ava_logging_api_url}}"
+          "ConnectionString": "{{ava_logging_connection_string}}"
+          "SourceProviderType": "{{ava_logging_source_provider_type}}"
+          "EventBus:HostName": "{{event_bus_host_name}}"
+          "EventBus:Port": "{{event_bus_port}}"
+          "EventBus:Username": "{{event_bus_username}}"
+          "EventBus:Password": "{{event_bus_password}}"
+          "EventBus:RetryCount": "{{event_bus_retry_count}}"
+
+
+    - name: Run ava-web
+      become: yes
+      docker_container:
+        name: ava-web
+        restart: yes
+        image: gcr.io/dialogflow-rnd/ava-web:{{ava_web_img_ver}}
+        expose: 
+          - "{{ava_web_port}}"
+        ports:
+          - "{{ava_web_port}}:80"
+        env:
+          VIRTUAL_HOST: "{{ava_web_url}}"         
+          PORT: "{{ava_web_port}}"         
+
+
+    - name: Run genesys-simulator-node
+      become: yes
+      docker_container:
+        name: genesys-simulator-node
+        restart: yes
+        image: gcr.io/dialogflow-rnd/genesys-simulator-node:{{genesys_simulator_node_img_ver}}
+        expose: 
+          - "{{genesys_simulator_node_port}}"
+        ports:
+          - "{{genesys_simulator_node_port}}:{{genesys_simulator_node_port}}"
+        env:
+          VIRTUAL_HOST: "{{genesys_simulator_node_api_url}}"         
+          PORT: "{{genesys_simulator_node_port}}"
+          MONGODB_URL: "{{genesys_simulator_node_mongodb_url}}"
+          DATABASE: "{{genesys_simulator_node_mongodb_database}}"
+          CHAT_LOGS_CONNECTION_STRING: "{{genesys_simulator_node_chatlogs_connection_string}}"
+          CHAT_LOGS_SOURCE_PROVIDER_TYPE: "{{genesys_simulator_node_chatlogs_source_provider_type}}"
+
+
+    - name: Run ulthane-api-node
+      become: yes
+      docker_container:
+        name: ulthane-api-node
+        restart: yes
+        image: gcr.io/dialogflow-rnd/ulthane-api-node:{{ulthane_api_node_img_ver}}
+        # expose: 
+        #   - "{{ulthane_api_node_port}}"
+        ports:
+          # - "{{ulthane_api_node_port}}:{{ulthane_api_node_port}}"
+          - "{{ulthane_api_node_port}}:3000"
+        env:
+          VIRTUAL_HOST: "{{ulthane_api_node_api_url}}"         
+          # PORT: "{{ulthane_api_node_port}}"
+          PORT: "3000"
+          MONGODB_URL: "{{ulthane_api_node_mongodb_url}}"
+          DATABASE: "{{ulthane_api_node_mongodb_database}}"
+          CHAT_LOGS_CONNECTION_STRING: "{{ulthane_api_node_chatlogs_connection_string}}"
+          CHAT_LOGS_SOURCE_PROVIDER_TYPE: "{{ulthane_api_node_chatlogs_source_provider_type}}"
