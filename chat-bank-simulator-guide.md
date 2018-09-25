@@ -1,6 +1,8 @@
 This guide will assist on setting up bank simulator.
 Show casing a authenticated flow for bank application
 
+Scroll to bottom for simple guide on how to develop your own bank simulator api
+
 ## Getting Started
 These instruction will assist you on getting bank simulator up and running.
 
@@ -34,4 +36,82 @@ This guide will assume there is already an accessible ava environment
 - Ensure that "Unauthroized" is being shown
 
 
+## Implementation
+chat-banking-simulator-node is being develop to show case how we can bridge and existing api over to dialogflow with some basic oauth implementation
+
+### Authentication
+- An that generates a temporary token
+```javascript
+//Method: POST
+//Request: NOT required
+//Response
+{
+  token: { 
+    type: String,
+    required: true
+  }
+}
+```
+- Claim Token. Generating a JWT by handing a temporary generated token. Required authenticated **service account** for converting a token to a JWT
+
+```javascript
+//Method: POST
+//Request
+{
+  token: { 
+    type: String,
+    required: true
+  }
+}
+//Response: STRING (valid JWT)
+```
+
+### Sample Webhook structure
+Request and response structure for webhook. Where the wrapper business logic handle most of the transpiling.
+
+```javascript
+//METHOD: POST
+//Request
+{
+  session:{
+    type: String,
+    description: "shorten guid of sessionid from dialogflow"
+  },
+  parameters:{
+    type: Object,
+    description: "parameters configured in html page OR pass in from dialogflow"
+    nullable: false,
+    can_be_empty: true
+  },
+  outputContexts:{
+    type: Array<Dialogflow.OutputContext>,
+    description: "dialogflow output contenxt",
+    nullable: true,
+    can_be_empty: true
+  }
+}
+//Response
+{
+  text:{
+    type: String,
+    optional: true,
+    description: "A simple plain text to be displayed to user"
+  },
+  event:{
+    type: String,
+    optional: true
+  },
+  complexResponses:{
+    type: Array<ResponseEnrichmentAction>,
+    optional: true,
+    description: "Use this response when you want to have complex responeses, to view a list of supported object. make use of the user interface on what are the objects can be created. Use web inspector to preview the actual structure",
+    possible_known_type: [
+      "buttonResponseAction",
+      "cardResponseAction",
+      "functionResponseV2Action",
+      "htmlFormAction",
+    ]
+  }
+}
+```
 
