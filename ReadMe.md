@@ -18,8 +18,8 @@ Refer to Ai Components visio for each component relationship
 1. **Ava** Main logical processing handling all user chats and webhook fulfillment
 2. **Ulthane** Main storage storing all agents, intents and actions configurations
 3. **Logging** All given chat logs
-4. **Genesys Proxy** *optional* Used for ferrying communication within chat interface and genesys services. Background tasks and message pooling are some of its role. Thus, it’s important to scale this as genesys user scale as well.
-5. **Facebook Session** *optional* Used to keep track of a given fresh new Facebook conversation
+4. **Genesys Proxy** *(optional)* Used for ferrying communication within chat interface and genesys services. Background tasks and message pooling are some of its role. Thus, it’s important to scale this as genesys user scale as well.
+5. **Facebook Session** *(optional)* Used to keep track of a given fresh new Facebook conversation
 
 ## Installation (Form)
 1. **Pull down the relevant web forms**
@@ -103,7 +103,7 @@ Click for more details on [postgres](https://node-postgres.com/features/connecti
 ## GIANT Configurations
 
 In order to fully utilize form, there are a few prerequisite setups to be done beforehand. For this section, the assumption is made that you have gone through at least the basic of GIANT administration training and you have at least a Power Administrator level account.
-`
+
 ### Role Setup
 - Client Administrator: default role that exists within the system. User who has been granted this role will gain **FULL ACCESS** to all of the features available within the system. Handling the administration tasks such as setting up a new chatbot, security and integration token access.
 - Power Admin: default role that exists within the system. Same access rights as Client Administrator above. 
