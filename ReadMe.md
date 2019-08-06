@@ -39,7 +39,7 @@ Refer to Ai Components visio for each component relationship
 2. **Ava**
 - isDebug *default: true* toggle to false if all error wanted to be suppressed
 - avaUrl 
-> Protip: *If it’s in self-hosted mode, consider proxying ava web to reduce clutter of cors between web and services*
+> Protip: *If it’s in self-hosted mode, consider proxying ava web to reduce clutter of CORS between web and services*
 
 ---
 
@@ -76,18 +76,18 @@ Click for more details on [postgres](https://node-postgres.com/features/connecti
 - ConnectionString *any valid connection string based on the configured source provider type**
 - SourceProviderType *default: Postgres* & MySql
 - EventBus* 
-- EventBusQueuename *default: Logging*, ensure that changes to this queue is logged
+- EventBusQueuename *default: Logging*, ensure that changes to this queue is the same as all configurations
 
 4. **Genesys Proxy** *.net core*
 - ConnectionString redis url [see more on security for redis](https://redis.io/topics/security)
 - EventBus* 
-- EventBusQueuename *default: Logging*, ensure that changes to this queue is logged
+- EventBusQueuename *default: Logging*, ensure that changes to this queue is the same as all configurations
 
 5. **Facebook Session** *.net core*
 - FacebookApiUrl *default: https://graph.facebook.com/v2.6/me/*
 - ConnectionString redis url [see more on security for redis](https://redis.io/topics/security)
 - EventBus* 
-- EventBusQueuename *default: Logging*, ensure that changes to this queue is logged
+- EventBusQueuename *default: Logging*, ensure that changes to this queue is the same as all configurations
 
 ### MISC Configuration Properties
 1. EventBus*: RabbitMQ configuration
