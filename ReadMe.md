@@ -101,8 +101,7 @@ Click for more details on [postgres](https://node-postgres.com/features/connecti
 - Username
 - Password
 - RetryCount
-> *Protip*: For nested .net core docker enviroment pass through, use {P}:{C} format [See more...](https://www.scottbrady91.com/Docker/ASPNET-Core-and-Docker-Environment-Variables)
-> *Protip*: For environment that not accept colon ":" for value key, may replace the ":" with double underscore "\_\_".
+> *Protip*: For nested .net core docker enviroment pass through, use {P}:{C} format [See more...](https://www.scottbrady91.com/Docker/ASPNET-Core-and-Docker-Environment-Variables). For environment that does not accept colon ":" for value key, may replace the ":" with double underscore "\_\_".
 
 ---
 
