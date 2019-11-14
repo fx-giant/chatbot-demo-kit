@@ -138,3 +138,24 @@
           DATABASE: "{{ulthane_api_node_mongodb_database}}"
           CHAT_LOGS_CONNECTION_STRING: "{{ulthane_api_node_chatlogs_connection_string}}"
           CHAT_LOGS_SOURCE_PROVIDER_TYPE: "{{ulthane_api_node_chatlogs_source_provider_type}}"
+
+
+    - name: Run ava-whatsapp-session
+      become: yes
+      docker_container:
+        name: ava-whatsapp-session
+        restart: yes
+        image: gcr.io/dialogflow-rnd/ava-whatsapp-session:{{ava_whatsapp_session_img_ver}}
+        expose: 
+          - "{{ava_whatsapp_session_port}}"
+        ports:
+          - "{{ava_whatsapp_session}}:80"
+        env:
+          VIRTUAL_HOST: "{{ava_whatsapp_session_url}}"
+          "ConnectionString": "{{ava_whatsapp_session_connection_string}}"
+          "NumberOfThreads": "{{ava_whatsapp_session_number_of_threads}}"
+          "EventBus:HostName": "{{event_bus_host_name}}"
+          "EventBus:Port": "{{event_bus_port}}"
+          "EventBus:Username": "{{event_bus_username}}"
+          "EventBus:Password": "{{event_bus_password}}"
+          "EventBus:RetryCount": "{{event_bus_retry_count}}"

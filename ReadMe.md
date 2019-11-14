@@ -61,7 +61,7 @@ Refer to Ai Components visio for each component relationship
 - PORT *default: 1337*
 - MONGODB_URL *any valid mongodb will be accepted*
 - DATABASE *given database within mongo*
-- CHAT_LOGS_SOURCE_PROVIDER_TYPE *a valid connection source below, currently supported **Postgres** & MySql*
+- CHAT_LOGS_SOURCE_PROVIDER_TYPE *a valid connection source below, currently supported **Postgre** & MySql*
 - CHAT_LOGS_CONNECTION_STRING *a valid connection source RELATIVE to logging service below*
 
 >Protip: nodejs connection string are different to .net core. 
@@ -74,20 +74,25 @@ Click for more details on [postgres](https://node-postgres.com/features/connecti
 3. **Logging** *.net core*
 - Docker image service port: 80
 - ConnectionString *any valid connection string based on the configured source provider type**
-- SourceProviderType *default: Postgres* & MySql
+- SourceProviderType *default: Postgre* & MySql
 - EventBus* 
 - EventBusQueuename *default: Logging*, ensure that changes to this queue is the same as all configurations
 
 4. **Genesys Proxy** *.net core*
 - ConnectionString redis url [see more on security for redis](https://redis.io/topics/security)
 - EventBus* 
-- EventBusQueuename *default: Logging*, ensure that changes to this queue is the same as all configurations
+- EventBusQueuename *default: GenesysProxy*, ensure that changes to this queue is the same as all configurations
 
 5. **Facebook Session** *.net core*
 - FacebookApiUrl *default: https://graph.facebook.com/v2.6/me/*
 - ConnectionString redis url [see more on security for redis](https://redis.io/topics/security)
 - EventBus* 
-- EventBusQueuename *default: Logging*, ensure that changes to this queue is the same as all configurations
+- EventBusQueuename *default: FacebookSessionApi*, ensure that changes to this queue is the same as all configurations
+
+6. **Whatsapp Session** 
+- ConnectionString redis url [see more on security for redis](https://redis.io/topics/security)
+- EventBus* 
+- EventBusQueuename *default: WhatsappSessionApi*, ensure that changes to this queue is the same as all configurations
 
 ### MISC Configuration Properties
 1. EventBus*: RabbitMQ configuration
@@ -97,6 +102,7 @@ Click for more details on [postgres](https://node-postgres.com/features/connecti
 - Password
 - RetryCount
 > *Protip*: For nested .net core docker enviroment pass through, use {P}:{C} format [See more...](https://www.scottbrady91.com/Docker/ASPNET-Core-and-Docker-Environment-Variables)
+> *Protip*: For environment that not accept colon ":" for value key, may replace the ":" with double underscore "\_\_".
 
 ---
 
