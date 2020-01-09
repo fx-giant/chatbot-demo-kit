@@ -101,6 +101,7 @@ Click for more details on [postgres](https://node-postgres.com/features/connecti
 - Username
 - Password
 - RetryCount
+- ClientProvidedName (client name to appear in rabbitMQ connection list which help to identify the source of connection's services. By default ClientProvidedName is undefined.)
 > *Protip*: For nested .net core docker enviroment pass through, use {P}:{C} format [See more...](https://www.scottbrady91.com/Docker/ASPNET-Core-and-Docker-Environment-Variables). For environment that does not accept colon ":" for value key, may replace the ":" with double underscore "\_\_".
 
 ---
