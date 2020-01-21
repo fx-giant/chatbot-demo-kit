@@ -80,6 +80,7 @@ Click for more details on [postgres](https://node-postgres.com/features/connecti
 
 4. **Genesys Proxy** *.net core*
 - ConnectionString redis url [see more on security for redis](https://redis.io/topics/security)
+- FetchMessageAutoTimeoutSeconds *default: 1800*
 - EventBus* 
 - EventBusQueuename *default: GenesysProxy*, ensure that changes to this queue is the same as all configurations
 
