@@ -2,6 +2,11 @@
 
 This guide will assist on setting up Whatsapp Integration with AVA Chatbot.
 
+## Prerequisites
+
+- A Whatsapp number
+- Access to any Giant Chatbot
+
 ## Twilio Sign Up Flow
 
 1. Sign up Twilio Account at [Twilio Registration Page](https://www.twilio.com/try-twilio)
