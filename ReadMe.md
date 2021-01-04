@@ -117,3 +117,5 @@ In order to fully utilize form, there are a few prerequisite setups to be done b
 - Chat Content Editor: an assigned role whereby the given user mainly performs the task of DESIGNING the chat bot responses. Given to users whom are the business specialists that define the responses of each given intent.
 
 - Chat Operator: an assigned role whereby the given user is allowed access to view the chat history for monitoring purpose.
+
+> *Protip*: For version release on 2021 will contain giant form action control. This will be the prefered way to configure fine grain access rights. See Giant Form Action configuration for additional details.
